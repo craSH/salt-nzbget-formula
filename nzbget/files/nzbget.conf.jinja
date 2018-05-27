@@ -6,27 +6,27 @@
 #
 # See nzbget docs below for values, or read the template/pillar example.
 #
-# Latest source version:
-#   https://github.com/nzbget/nzbget/blob/develop/nzbget.conf
+# This ({{ nzbget.release.version }} release) version:
+#   {{ nzbget.release.config_doc }}
 #
-# This (19.1 release) version:
-#   https://github.com/nzbget/nzbget/blob/c0eedc342b422ea2797bc85a3fb19c0a2c60e716/nzbget.conf
+# Latest source version:
+#   {{ nzbget.relase.config_latest_doc }}
 #
 
 
 ##############################################################################
 ### PATHS                                                                  ###
 
-MainDir={{ config.get('main_dir', '~/downloads') }}
+MainDir={{ config.get('main_dir', nzbget.data_dir) }}
 DestDir={{ config.get('dest_dir', '${MainDir}/dst') }}
 InterDir={{ config.get('inter_dir', '${MainDir}/inter') }}
 NzbDir={{ config.get('nzb_dir', '${MainDir}/nzb') }}
 QueueDir={{ config.get('queue_dir', '${MainDir}/queue') }}
 TempDir={{ config.get('temp_dir', '${MainDir}/tmp') }}
 WebDir={{ config.get('web_dir', '/usr/share/nzbget/webui') }}
-ScriptDir={{ config.get('script_dir', ['${MainDir}/scripts'])|join(',') }}
-LockFile={{ config.get('lock_file', '${MainDir}/nzbget.lock') }}
-LogFile={{ config.get('log_file', '${DestDir}/nzbget.log') }}
+ScriptDir={{ config.get('script_dir', '${MainDir}/scripts') }}
+LockFile={{ config.get('lock_file', nzbget.lock_file) }}
+LogFile={{ config.get('log_file', nzbget.log_file) }}
 ConfigTemplate={{ config.get('config_template', '/usr/share/nzbget/nzbget.conf') }}
 RequiredDir={{ config.get('required_dir', [])|join(',') }}
 CertStore={{ config.get('cert_store', '') }}
@@ -40,13 +40,13 @@ CertStore={{ config.get('cert_store', '') }}
 # Server: {{ server.get('name', '') }} [{{ loop.index }}]
 Server{{ loop.index }}.Active={{ 'yes' if server.get('active', True) else 'no' }}
 Server{{ loop.index }}.Name={{ server.get('name', '') }}
-Server{{ loop.index }}.Level={{ server.get('level', 0)}}
+Server{{ loop.index }}.Level={{ server.get('level', 0) }}
 Server{{ loop.index }}.Optional={{ 'yes' if server.get('optional', False) else 'no' }}
-Server{{ loop.index }}.Group={{ server.get('level', 0)}}
+Server{{ loop.index }}.Group={{ server.get('level', 0) }}
 Server{{ loop.index }}.Host={{ server.host }}
-Server{{ loop.index }}.Port={{ server.get('port', 119)}}
-Server{{ loop.index }}.Username={{ server.get('user', '')}}
-Server{{ loop.index }}.Password={{ server.get('pass', '')}}
+Server{{ loop.index }}.Port={{ server.get('port', 119) }}
+Server{{ loop.index }}.Username={{ server.get('user', '') }}
+Server{{ loop.index }}.Password={{ server.get('pass', '') }}
 Server{{ loop.index }}.JoinGroup={{ 'yes' if server.get('join_group', False) else 'no' }}
 Server{{ loop.index }}.Encryption={{ 'yes' if server.get('encryption', False) else 'no' }}
 Server{{ loop.index }}.Cipher={{ server.get('cipher', [])|join(':') }}
@@ -75,7 +75,7 @@ SecureCert={{ config.get('secure_cert', '') }}
 SecureKey={{ config.get('secure_key', '') }}
 AuthorizedIP={{ config.get('authorized_ips', [])|join(',') }}
 CertCheck={{ 'yes' if config.get('cert_check', False) else 'no' }}
-DaemonUsername={{ config.get('daemon_user', 'root') }}
+DaemonUsername={{ config.get('daemon_user', nzbget.user) }}
 UMask={{ config.get('umask', '1000') }}
 
 

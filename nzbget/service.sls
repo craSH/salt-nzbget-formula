@@ -1,22 +1,31 @@
 {%- from "nzbget/map.jinja" import nzbget with context -%}
 
+# TODO separate user and group.
+
 include:
   - nzbget
   - nzbget.config
 
+nzbget-group:
+  group.present:
+    - name: {{ nzbget.group }}
+
 nzbget-user:
   user.present:
     - name: {{ nzbget.user }}
+    - group: {{ nzbget.group }}
     - home: {{ nzbget.data_dir }}
     - createhome: False
     - shell: /usr/sbin/nologin
     - system: True
+    - require:
+      - group: nzbget-group
 
 nzbget-data-dir:
   file.directory:
     - name: {{ nzbget.data_dir }}
     - user: {{ nzbget.user }}
-    - group: {{ nzbget.user }}
+    - group: {{ nzbget.group }}
     - require:
       - user: nzbget-user
 
@@ -24,14 +33,23 @@ nzbget-log-dir:
   file.directory:
     - name: {{ nzbget.log_dir }}
     - user: {{ nzbget.user }}
-    - group: {{ nzbget.user }}
+    - group: {{ nzbget.group }}
+    - require:
+      - user: nzbget-user
+
+nzbget-secure-dir:
+  file.direcotry:
+    - name: {{ nzbget.secure_dir }}
+    - user: {{ nzbget.user }}
+    - group: {{ nzbget.group }}
+    - mode: 0700
     - require:
       - user: nzbget-user
 
 nzbget-service-file:
   file.managed:
     - name: /etc/systemd/system/{{ nzbget.service }}.service
-    - source: salt://nzbget/files/nzbget.service.jinja
+    - source: salt://nzbget/files/nzbget.systemd.jinja
     - template: jinja
 
 nzbget-service:

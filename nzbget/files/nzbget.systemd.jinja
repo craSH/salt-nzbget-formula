@@ -3,17 +3,22 @@
 {%- set config = salt['pillar.get']('nzbget:config', {}) -%}
 
 [Unit]
-Description=NZBGet Usenet downloader
+Description=NZBGet Daemon ({{ nzbget.release.version }})
+Documentation={{ nzbget.release.reference_doc }}
+After=network.target
+RequiresMountsFor={{ config.get('required_dir', [])|join(',') }}
 
 [Service]
-Type=forking
 User={{ nzbget.user }}
-Group={{ nzbget.user }}
+Group={{ nzbget.group }}
+Type=forking
 PIDFile={{ config.get('lock_file', nzbget.lock_file) }}
 WorkingDirectory={{ nzbget.data_dir }}
 ExecStart={{ nzbget.bin }} --daemon --configfile {{ nzbget.config_file }}
 ExecStop={{ nzbget.bin }} --quit --configfile {{ nzbget.config_file }}
+ExecReload={{ nzbget.bin }} --reload --configfile {{ nzbget.config_file }}
+KillMode=process
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-

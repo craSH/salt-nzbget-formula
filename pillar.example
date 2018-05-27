@@ -1,11 +1,29 @@
+#!yaml|gpg
+
 # TODO:
 - cert/key/pass installs as well.
 
-
 nzbget:
-  # See `nzbget/defaults.yaml` for more settings that can be overridden
+
+  # Lookup values are set in defaults.yaml and may be overridden here.
   lookup:
-    user: nzbd
+    package: nzbget
+    service: nzbget
+    user: nzb
+    group: nzb
+    bin: /usr/bin/nzbget
+    config_dir: /etc/nzbget
+    config_file: /etc/nzbget/nzbget.conf
+    data_dir: /var/lib/nzbget
+    lock_file: /var/lib/nzbget/nzbget.pid
+    log_dir: /var/log/nzbget
+    log_file: /var/log/nzbget/nzbget.log
+    secure_dir: /etc/nzbget
+    release:
+      version: 19.1
+      config_doc: https://github.com/nzbget/nzbget/blob/c0eedc342b422ea2797bc85a3fb19c0a2c60e716/nzbget.conf
+      config_latest_doc: https://github.com/nzbget/nzbget/blob/develop/nzbget.conf
+      reference_doc: https://nzbget.net/documentation
 
   # List of scripts to install. See `nzbget/files/scripts/` for available
   # scripts.
@@ -18,17 +36,17 @@ nzbget:
   # tasks are all optional but if used require specific settings.
   config:
     # Paths Section
-    main_dir: ~/downloads
+    main_dir: /var/lib/nzbget
     dest_dir: ${MainDir}/dst
     inter_dir: ${MainDir}/inter
     nzb_dir: ${MainDir}/nzb
     queue_dir: ${MainDir}/queue
     temp_dir: ${MainDir}/tmp
     web_dir: /usr/share/nzbget/webui
-    script_dir:
-      - ${MainDir}/scripts
-    lock_file: '${MainDir}/nzbget.lock'
-    log_file: '${DestDir}/nzbget.log'
+    # this is only a single directory right now.
+    script_dir: ${MainDir}/scripts
+    lock_file: '/var/lib/nzbget/nzbget.pid'
+    log_file: '/var/log/nzbget/nzbget.log'
     config_template: '/usr/share/nzbget/nzbget.conf'
     required_dir:
       - default
@@ -78,14 +96,16 @@ nzbget:
     form_auth: False
     secure_control: False
     secure_port: 6791
+    # Use GPG and store cert here. Stored: nzbget:lookup:secure_dir/secure.cert
     secure_cert: 'default empty string'
+    # Use GPG and store cert here. Stored: nzbget:lookup:secure_dir/secure.key
     secure_key: 'default empty string'
     authorized_ips:
       - default
       - empty
       - list
     cert_check: False
-    daemon_user: root
+    daemon_user: nzb
     umask: '1000'
 
     # Category Section
@@ -228,6 +248,7 @@ nzbget:
       - '_brokenlog.txt'
     unpack_ignore_ext:
       - '.cbr'
+    # Use GPG and store passwords here. Stored: nzbget:lookup:secure_dir/passwds
     unpack_pass_file: 'default empty string'
 
     # Extension Section
