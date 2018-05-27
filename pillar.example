@@ -1,18 +1,64 @@
+# TODO:
+- cert/key/pass installs as well.
+
+
 nzbget:
   # See `nzbget/defaults.yaml` for more settings that can be overridden
   lookup:
     user: nzbd
 
-  # See `nzbget/files/nzbget.conf.jinja` for complete list of configuration
-  # options.
+  # List of scripts to install. See `nzbget/files/scripts/` for available
+  # scripts.
+  scripts:
+    - permissions.sh
+
+
+  # All nzbget config options. These are default ubuntu options. Options that
+  # are empty by default are clearly described. Servers, categories, feeds and
+  # tasks are all optional but if used require specific settings.
   config:
-    main_dir: /media/downloads
+    # Paths Section
+    main_dir: ~/downloads
+    dest_dir: ${MainDir}/dst
+    inter_dir: ${MainDir}/inter
+    nzb_dir: ${MainDir}/nzb
+    queue_dir: ${MainDir}/queue
+    temp_dir: ${MainDir}/tmp
+    web_dir: /usr/share/nzbget/webui
+    script_dir:
+      - ${MainDir}/scripts
+    lock_file: '${MainDir}/nzbget.lock'
+    log_file: '${DestDir}/nzbget.log'
+    config_template: '/usr/share/nzbget/nzbget.conf'
+    required_dir:
+      - default
+      - empty
+      - list
+    cert_store: /default/empty/string
+
+    # Servers Section
     servers:
       - host: news.example.com
+        name: 'default empty string'
+        active: True
+        level: 0
+        optional: False
+        group: 0
         port: 119
-        connections: 8
+        username: 'default empty string'
+        password: 'default empty string'
+        join_group: False
+        encryption: False
+        cipher:
+          - default
+          - empty
+          - list
+        connections: 4
+        retention: 0
+        ip_version: auto
+        notes: 'default empty string'
 
-      - host: news.example.org
+      - host: other.example.org
         port: 563
         user: username
         pass: password
@@ -20,11 +66,182 @@ nzbget:
         encryption: True
         connections: 60
 
+    # Security Section
+    control_ip: '0.0.0.0'
+    control_port: 6789
+    control_user: 'nzbget'
+    control_pass: 'tegbzn6789'
+    restricted_username: 'default empty string'
+    restricted_password: 'default empty string'
+    add_username: 'default empty string'
+    add_password: 'default empty string'
+    form_auth: False
+    secure_control: False
+    secure_port: 6791
+    secure_cert: 'default empty string'
+    secure_key: 'default empty string'
+    authorized_ips:
+      - default
+      - empty
+      - list
+    cert_check: False
+    daemon_user: root
+    umask: '1000'
+
+    # Category Section
     categories:
       - name: TV
-      - name: Movies
+        dest_dir: 'default empty string'
+        unpack: True
+        extensions:
+          - default
+          - empty
+          - list
+        aliases:
+          - default
+          - empty
+          - list
 
-  # List of scripts to install. See `nzbget/files/scripts/` for available
-  # scripts.
-  scripts:
-    - permissions.sh
+      - name: Movies
+      - name: Documentaries
+
+    # RSS Feeds Section
+    feeds:
+      - name: 'default empty string'
+        url: 'default empty string'
+        filter:
+          - default
+          - empty
+          - list
+        interval: 15
+        back_log: True
+        pause_nzb: False
+        category: 'default empty string'
+        priority: 0
+        extensions:
+          - default
+          - empty
+          - list
+
+      - name: my other feed
+
+    # Incoming Section
+    append_category_dir: True
+    nzb_dir_interval: 5
+    nzb_dir_file_age: 60
+    dupe_check: True
+
+    # Download Section
+    save_queue: True
+    flush_queue: True
+    reload_queue: True
+    continue_partial: True
+    propagation_delay: 0
+    decode: True
+    article_cache: 0
+    direct_write: True
+    write_buffer: 0
+    crc_check: True
+    file_naming: auto
+    reorder_files: True
+    post_strategy: balanced
+    disk_space: 250
+    nzb_cleanup_disk: True
+    keep_history: 30
+    feed_history: 7
+
+    # Connections Section
+    article_retries: 3
+    article_retry_interval: 10
+    article_timeout: 60
+    url_retries: 3
+    url_retry_interval: 10
+    url_timeout: 60
+    terminate_timeout: 600
+    download_rate: 0
+    accurate_rate: False
+    url_connections: 4
+    url_force: True
+    monthly_quota: 0
+    quota_start_day: 1
+    daily_qouta: 0
+
+    # Logging Section
+    write_log: append
+    rotate_log: 3
+    error_target: both
+    warning_target: both
+    info_target: both
+    detail_target: log
+    debug_target: log
+    log_buffer_size: 1000
+    nzb_log: True
+    create_broken_log: True
+    crash_trace: True
+    crash_dump: True
+    time_correction: 0
+
+    # Display Section
+    output_mode: curses
+    curses_nzb_name: True
+    curses_group: False
+    curses_time: False
+    update_interval: 200
+
+    # Scheduler Section
+    tasks:
+      - time:
+          - '05:00'
+        week_days:
+          - '1-7'
+        command: PauseDownload
+        param: 'default empty string'
+
+    # Check and Repair Section
+    par_check: auto
+    par_repair: True
+    extended: extended
+    par_quick: True
+    par_buffer: 16
+    par_threads: 0
+    par_ignore_ext:
+      - '.sfv'
+      - '.nzb'
+      - '.nfo'
+    par_rename: True
+    rar_rename: True
+    direct_rename: False
+    health_check: park
+    par_time_limit: 0
+    par_pause_queue: False
+
+    # Unpack Section
+    unpack: True
+    direct_unpack: False
+    unpack_pause_queue: False
+    unpack_cleanup_disk: True
+    unrar_cmd: unrar
+    seven_zip_cmd: 7z
+    ext_cleanup_disk:
+      - '.par2'
+      - '.sfv'
+      - '_brokenlog.txt'
+    unpack_ignore_ext:
+      - '.cbr'
+    unpack_pass_file: 'default empty string'
+
+    # Extension Section
+    extensions:
+      - default
+      - empty
+      - list
+    script_order:
+      - default
+      - empty
+      - list
+    script_pause_queue: False
+    shell_override:
+      - default
+      - empty
+      - list
+    event_interval: 0
