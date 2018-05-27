@@ -9,30 +9,30 @@
 include:
   - nzbget
 
-nzbget-config-dir:
+nzbget_config_dir:
   file.directory:
     - name: {{ nzbget.config_dir }}
 
-nzbget-config-file:
+nzbget_config_file:
   file.managed:
     - name: {{ nzbget.config_file }}
     - source: salt://nzbget/files/nzbget.conf.jinja
     - template: jinja
     - require:
-      - file: nzbget-config-dir
+      - file: nzbget_config_dir
 
 {% if scripts -%}
-nzbget-scripts-dir:
+nzbget_scripts_dir:
   file.directory:
     - name: {{ scripts_dir }}
 
 {% for script in scripts %}
-nzbget-script-{{ script }}:
+nzbget_script_{{ script }}:
   file.managed:
     - name: {{ scripts_dir }}/{{ script }}
     - source: salt://nzbget/files/scripts/{{ script }}
     - mode: 755
     - require:
-      - file: nzbget-scripts-dir
+      - file: nzbget_scripts_dir
 {% endfor %}
 {%- endif %}

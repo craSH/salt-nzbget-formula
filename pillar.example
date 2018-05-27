@@ -1,8 +1,5 @@
 #!yaml|gpg
 
-# TODO:
-- cert/key/pass installs as well.
-
 nzbget:
 
   # Lookup values are set in defaults.yaml and may be overridden here.
@@ -34,6 +31,9 @@ nzbget:
   # All nzbget config options. These are default ubuntu options. Options that
   # are empty by default are clearly described. Servers, categories, feeds and
   # tasks are all optional but if used require specific settings.
+  #
+  # Note: DATA directories are not managed (dest_dir, inter_dir, nzb_dir) this
+  # only manages the service directories.
   config:
     # Paths Section
     main_dir: /var/lib/nzbget
