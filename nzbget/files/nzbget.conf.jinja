@@ -10,7 +10,7 @@
 #   {{ nzbget.release.config_doc }}
 #
 # Latest source version:
-#   {{ nzbget.relase.config_latest_doc }}
+#   {{ nzbget.release.config_latest_doc }}
 #
 
 
@@ -69,7 +69,7 @@ RestrictedPassword={{ config.get('restricted_password', '') }}
 AddUsername={{ config.get('add_username', '') }}
 AddPassword={{ config.get('add_password', '') }}
 FormAuth={{ 'yes' if config.get('form_auth', False) else 'no' }}
-SecureControl={{ 'yes' if config.get('secure_control', False) else 'no') }}
+SecureControl={{ 'yes' if config.get('secure_control', False) else 'no' }}
 SecurePort={{ config.get('secure_port', '6791') }}
 SecureCert={{ config.get('secure_cert', '') }}
 SecureKey={{ config.get('secure_key', '') }}
@@ -114,7 +114,7 @@ Feed{{ loop.index }}.Extensions={{ feed.get('extensions', [])|join(',') }}
 ##############################################################################
 ### INCOMING NZBS                                                          ###
 
-AppendCategoryDir={{ 'yes' if config.get('append_category_dir', True) else 'no') }}
+AppendCategoryDir={{ 'yes' if config.get('append_category_dir', True) else 'no' }}
 NzbDirInterval={{ config.get('nzb_dir_interval', 5) }}
 NzbDirFileAge={{ config.get('nzb_dir_file_age', 60) }}
 DupeCheck={{ 'yes' if config.get('dupe_check', True) else 'no' }}
@@ -124,7 +124,7 @@ DupeCheck={{ 'yes' if config.get('dupe_check', True) else 'no' }}
 ### DOWNLOAD QUEUE                                                         ###
 
 SaveQueue={{ 'yes' if config.get('save_queue', True) else 'no' }}
-FlushQueue={{ 'yes' if config.get('flush_queue', True) else 'no') }}
+FlushQueue={{ 'yes' if config.get('flush_queue', True) else 'no' }}
 ReloadQueue={{ 'yes' if config.get('reload_queue', True) else 'no' }}
 ContinuePartial={{ 'yes' if config.get('continue_partial', True) else 'no' }}
 PropagationDelay={{ config.get('propagation_delay', 0) }}

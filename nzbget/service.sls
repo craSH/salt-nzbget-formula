@@ -13,7 +13,8 @@ nzbget-group:
 nzbget-user:
   user.present:
     - name: {{ nzbget.user }}
-    - group: {{ nzbget.group }}
+    - groups:
+      - {{ nzbget.group }}
     - home: {{ nzbget.data_dir }}
     - createhome: False
     - shell: /usr/sbin/nologin
@@ -38,7 +39,7 @@ nzbget-log-dir:
       - user: nzbget-user
 
 nzbget-secure-dir:
-  file.direcotry:
+  file.directory:
     - name: {{ nzbget.secure_dir }}
     - user: {{ nzbget.user }}
     - group: {{ nzbget.group }}
