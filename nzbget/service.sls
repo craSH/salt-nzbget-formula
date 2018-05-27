@@ -52,8 +52,8 @@ nzbget-secure-dir:
 {% if secure_cert %}
 nzbget-secure-cert:
   file.managed:
-    - name: {{ nzbget.secure_dir ~ 'secure.cert'}}
-    - contents_pillar: secure_cert
+    - name: {{ nzbget.secure_dir ~ '/' ~ 'secure.cert'}}
+    - contents_pillar: nzbget:config:secure_cert
     - user: {{ nzbget.user }}
     - group: {{ nzbget.group }}
     - mode: 0400
@@ -64,8 +64,8 @@ nzbget-secure-cert:
 {% if secure_key %}
 nzbget-secure-key:
   file.managed:
-    - name: {{ nzbget.secure_dir ~ 'secure.key' }}
-    - contents_pillar: secure_key
+    - name: {{ nzbget.secure_dir ~ '/' ~ 'secure.key' }}
+    - contents_pillar: nzbget:config:secure_key
     - user: {{ nzbget.user }}
     - group: {{ nzbget.group }}
     - mode: 0400
@@ -76,8 +76,8 @@ nzbget-secure-key:
 {% if unpack_pass_file %}
 nzbget-secure-pass-file:
   file.managed:
-    - name: {{ nzbget.secure_dir ~ 'passwds'}}
-    - contents_pillar: unpack_pass_file
+    - name: {{ nzbget.secure_dir ~ '/' ~ 'passwds'}}
+    - contents_pillar: nzbget:config:unpack_pass_file
     - user: {{ nzbget.user }}
     - group: {{ nzbget.group }}
     - mode: 0400
