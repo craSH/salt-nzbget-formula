@@ -1,6 +1,8 @@
 {%- from "nzbget/map.jinja" import nzbget with context -%}
-
-# TODO separate user and group.
+{%- set config = salt['pillar.get']('nzbget:config', {}) -%}
+{%- set secure_cert = config.get('secure_cert', '') -%}
+{%- set secure_key = config.get('secure_key', '') -%}
+{%- set unpack_pass_file = config.get('unpack_pass_file', '') -%}
 
 include:
   - nzbget
@@ -46,6 +48,42 @@ nzbget-secure-dir:
     - mode: 0700
     - require:
       - user: nzbget-user
+
+{% if secure_cert %}
+nzbget-secure-cert:
+  file.managed:
+    - name: {{ nzbget.secure_dir ~ 'secure.cert'}}
+    - contents_pillar: secure_cert
+    - user: {{ nzbget.user }}
+    - group: {{ nzbget.group }}
+    - mode: 0400
+    - require:
+      - file: nzbget-secure-dir
+{% endif %}
+
+{% if secure_key %}
+nzbget-secure-key:
+  file.managed:
+    - name: {{ nzbget.secure_dir ~ 'secure.key' }}
+    - contents_pillar: secure_key
+    - user: {{ nzbget.user }}
+    - group: {{ nzbget.group }}
+    - mode: 0400
+    - require:
+      - file: nzbget-secure-dir
+{% endif %}
+
+{% if unpack_pass_file %}
+nzbget-secure-pass-file:
+  file.managed:
+    - name: {{ nzbget.secure_dir ~ 'passwds'}}
+    - contents_pillar: unpack_pass_file
+    - user: {{ nzbget.user }}
+    - group: {{ nzbget.group }}
+    - mode: 0400
+    - require:
+      - file: nzbget-secure-dir
+{% endif %}    
 
 nzbget-service-file:
   file.managed:

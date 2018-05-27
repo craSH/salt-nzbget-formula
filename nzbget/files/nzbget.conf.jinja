@@ -71,8 +71,8 @@ AddPassword={{ config.get('add_password', '') }}
 FormAuth={{ 'yes' if config.get('form_auth', False) else 'no' }}
 SecureControl={{ 'yes' if config.get('secure_control', False) else 'no' }}
 SecurePort={{ config.get('secure_port', '6791') }}
-SecureCert={{ config.get('secure_cert', '') }}
-SecureKey={{ config.get('secure_key', '') }}
+SecureCert={{ nzbget.secure_dir ~ '/' ~ config.get('secure_cert') config.get('secure_cert', False) else '' }}
+SecureKey={{ nzbget.secure_dir ~ '/' ~ config.get('secure_key') config.get('secure_key', False) else '' }}
 AuthorizedIP={{ config.get('authorized_ips', [])|join(',') }}
 CertCheck={{ 'yes' if config.get('cert_check', False) else 'no' }}
 DaemonUsername={{ config.get('daemon_user', nzbget.user) }}
@@ -231,7 +231,7 @@ UnrarCmd={{ config.get('unrar_cmd', 'unrar') }}
 SevenZipCmd={{ config.get('seven_zip_cmd', '7z') }}
 ExtCleanupDisk={{ config.get('ext_cleanup_disk', ['.par2', '.sfv', '_brokenlog.txt'])|join(',') }}
 UnpackIgnoreExt={{ config.get('unpack_ignore_ext', ['.cbr'])|join(',') }}
-UnpackPassFile={{ config.get('unpack_pass_file', '') }}
+UnpackPassFile={{ nzbget.secure_dir ~ '/' ~ config.get('unpack_pass_file') config.get('unpack_pass_file', False) else '' }}
 
 
 ##############################################################################
