@@ -19,7 +19,7 @@ nzbget:
   secure_dir: /etc/nzbget
 
   release:
-    version: 19.1
-    config_doc: https://github.com/nzbget/nzbget/blob/c0eedc342b422ea2797bc85a3fb19c0a2c60e716/nzbget.conf
+    version: 20.0
+    config_doc: https://github.com/nzbget/nzbget/blob/v20.0/nzbget.conf
     config_latest_doc: https://github.com/nzbget/nzbget/blob/develop/nzbget.conf
     reference_doc: https://nzbget.net/documentation
